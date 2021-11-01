@@ -26,18 +26,15 @@ def get_license(name: str, author: str) -> str:
     """
 
     name = name.lower().replace("-", "").replace(".", "").replace("_", "")
+    license_path = os.path.join("src", "promaker", "resources", "licenses", name)
 
-    if not os.path.isfile(
-        os.path.join(os.path.dirname(__file__), "resources", "licenses", name)
-    ):
+    if not os.path.isfile(license_path):
         raise ValueError(
             f"License {name} is not supported.\n"
             f"Supported licenses: {supported_licenses}"
         )
 
-    with open(
-        os.path.join(os.path.dirname(__file__), "resources", "licenses", name)
-    ) as f:
+    with open(license_path) as f:
         license_text = f.read()
 
     return license_text.replace("{year}", str(datetime.now().year)).replace(
